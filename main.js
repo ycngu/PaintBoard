@@ -9,14 +9,30 @@ var eraserEnabled = false
 setCanvasSize()
 
 
-eraser.onclick = function() {
-  eraserEnabled =true
-  actions.className = 'actions x'
+var colors = document.querySelector('.colors')
+
+colors.onclick = function(evt){
+    var li = document.querySelectorAll('li')
+    for (var i = 0; i < li.length; i++) {
+        li[i].classList.remove('active')
+    }
+    penColor = evt.target.className 
+    evt.target.classList.add('active')
 }
 
-brush.onclick = function(){
-  eraserEnabled = false
-  actions.className = 'actions'
+
+
+
+pen.onclick = function() {
+  eraserEnabled =false
+  pen.classList.add('active')
+  eraser.classList.remove('active')
+}
+
+eraser.onclick = function(){
+  eraserEnabled = true
+  eraser.classList.add('active')
+  pen.classList.remove('active')
 }
 
 function setCanvasSize() {
