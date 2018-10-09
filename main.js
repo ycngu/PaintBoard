@@ -28,41 +28,77 @@ function setCanvasSize() {
 }
 
 
-
-canvas.onmousedown = function(evt){
-    using = true
-    var x = evt.clientX
-    var y = evt.clientY
-    if(eraserEnabled){
-        ctx.clearRect(x - 5,y - 5, 10, 10)
-    } else{
-        lastPoint= {
-            "x":x,
-            "y":y
-        }    
+if(document.body.ontouchstart !== undefined){
+    canvas.ontouchstart = function(evt){
+        using = true
+        var x = evt.touches[0].clientX
+        var y = evt.touches[0].clientY
+        if(eraserEnabled){
+            ctx.clearRect(x - 5,y - 5, 10, 10)
+        } else{
+            lastPoint= {
+                "x":x,
+                "y":y
+            }    
+        }
     }
-    // drawCircle(x, y, 1)
-}
-
-canvas.onmousemove = function(evt){
-    var x = evt.clientX
-    var y = evt.clientY
-
-    if (!using) {return}
     
-    if(eraserEnabled){
-        ctx.clearRect(x - 5, y - 5, 20, 20)
-    } else{
-        var newPoint ={"x":x,"y":y}
-        // console.log('nxy',lastPoint.x,lastPoint.y)
-        drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
-        lastPoint = newPoint
+    canvas.ontouchmove = function(evt){
+        var x = evt.touches[0].clientX
+        var y = evt.touches[0].clientY
+    
+        if (!using) {return}
+        
+        if(eraserEnabled){
+            ctx.clearRect(x - 5, y - 5, 20, 20)
+        } else{
+            var newPoint ={"x":x,"y":y}
+            // console.log('nxy',lastPoint.x,lastPoint.y)
+            drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+            lastPoint = newPoint
+        }
+    }
+    
+    canvas.ontouchend = function(evt){
+        using = false
+    }
+} else{
+    canvas.onmousedown = function(evt){
+        using = true
+        var x = evt.clientX
+        var y = evt.clientY
+        if(eraserEnabled){
+            ctx.clearRect(x - 5,y - 5, 10, 10)
+        } else{
+            lastPoint= {
+                "x":x,
+                "y":y
+            }    
+        }
+    }
+    
+    canvas.onmousemove = function(evt){
+        var x = evt.clientX
+        var y = evt.clientY
+    
+        if (!using) {return}
+        
+        if(eraserEnabled){
+            ctx.clearRect(x - 5, y - 5, 20, 20)
+        } else{
+            var newPoint ={"x":x,"y":y}
+            // console.log('nxy',lastPoint.x,lastPoint.y)
+            drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+            lastPoint = newPoint
+        }
+    }
+    
+    canvas.onmouseup = function(evt){
+        using = false
     }
 }
 
-canvas.onmouseup = function(evt){
-    using = false
-}
+
 
 
 
