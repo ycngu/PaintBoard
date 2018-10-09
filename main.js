@@ -2,32 +2,66 @@ var canvas = document.querySelector('#canvas')
 
 var ctx = canvas.getContext('2d')
 var penColor = 'black'
-var painting = false
+var using = false
 var lastPoint ={x:undefined,y:undefined}
+var eraserEnabled = false
+
+setCanvasSize()
+
+
+eraser.onclick = function() {
+  eraserEnabled =true
+  actions.className = 'actions x'
+}
+
+brush.onclick = function(){
+  eraserEnabled = false
+  actions.className = 'actions'
+}
+
+function setCanvasSize() {
+    var pageWidth = document.documentElement.clientWidth
+    var pageHeight = document.documentElement.clientHeight
+
+    canvas.width = pageWidth
+    canvas.height = pageHeight
+}
+
+
+
 canvas.onmousedown = function(evt){
-    painting = true
+    using = true
     var x = evt.clientX
     var y = evt.clientY
-    lastPoint= {
-        x:x,
-        y:y
+    if(eraserEnabled){
+        ctx.clearRect(x - 5,y - 5, 10, 10)
+    } else{
+        lastPoint= {
+            "x":x,
+            "y":y
+        }    
     }
-    drawCircle(x, y, 1)
+    // drawCircle(x, y, 1)
 }
 
 canvas.onmousemove = function(evt){
-    if(painting){
-        var x = evt.clientX
-        var y = evt.clientY
-        var newPoint ={x:x,y:y}
-        drawCircle(x, y, 1)
-        drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
+    var x = evt.clientX
+    var y = evt.clientY
+
+    if (!using) {return}
+    
+    if(eraserEnabled){
+        ctx.clearRect(x - 5, y - 5, 20, 20)
+    } else{
+        var newPoint ={"x":x,"y":y}
+        // console.log('nxy',lastPoint.x,lastPoint.y)
+        drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
         lastPoint = newPoint
     }
 }
 
 canvas.onmouseup = function(evt){
-    painting = false
+    using = false
 }
 
 
@@ -45,8 +79,7 @@ var drawLine = function(x1, y1, x2, y2){
     ctx.strokeStyle = penColor
     ctx.lineWidth = '5'
     ctx.moveTo(x1, y1)
-    ctx.lineTo(x2,y2)
-    ctx.fill()
+    ctx.lineTo(x2, y2)
     ctx.stroke()
     ctx.closePath()
 }
