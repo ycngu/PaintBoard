@@ -2,6 +2,7 @@ var canvas = document.querySelector('#canvas')
 
 var ctx = canvas.getContext('2d')
 var penColor = 'black'
+var penWidth = '5'
 var using = false
 var lastPoint ={x:undefined,y:undefined}
 var eraserEnabled = false
@@ -129,7 +130,7 @@ var drawCircle = function (x, y, radius){
 var drawLine = function(x1, y1, x2, y2){
     ctx.beginPath()
     ctx.strokeStyle = penColor
-    ctx.lineWidth = '5'
+    ctx.lineWidth = penWidth
     ctx.moveTo(x1, y1)
     ctx.lineTo(x2, y2)
     ctx.stroke()
