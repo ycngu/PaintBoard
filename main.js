@@ -1,5 +1,4 @@
 var canvas = document.querySelector('#canvas')
-
 var ctx = canvas.getContext('2d')
 var penColor = 'black'
 var penWidth = '5'
@@ -8,21 +7,52 @@ var lastPoint ={x:undefined,y:undefined}
 var eraserEnabled = false
 
 setCanvasSize()
-
+initCanvas()
 
 var colors = document.querySelector('.colors')
+var penSizes = document.querySelector('.penSizes')
+var clear = document.querySelector('.clear')
+var save= document.querySelector('.save')
 
 colors.onclick = function(evt){
-    var li = document.querySelectorAll('li')
+    var li = document.querySelectorAll('li.color')
     for (var i = 0; i < li.length; i++) {
         li[i].classList.remove('active')
     }
-    penColor = evt.target.className 
+    penColor = evt.target.className.split(' ')[1]
+    console.log(penColor)
     evt.target.classList.add('active')
 }
 
+penSizes.onclick = function(evt){
+    var li = document.querySelectorAll('li.penSize')
+    for (var i = 0; i < li.length; i++) {
+        li[i].classList.remove('active')
+    }
 
+    if(evt.target.className.split(' ')[1] !== undefined){
+        penWidth = evt.target.className.split(' ')[1][1]
+        evt.target.classList.add('active')
+    }
+}
 
+clear.onclick = function(){
+    clearCanvas()
+}
+
+save.onclick = function(){
+    var url = canvas.toDataURL("image/png")
+    console.log(url)
+
+    var a = document.createElement('a')
+
+    document.body.appendChild(a)
+
+    a.href = url
+    a.target = '_blank'
+    a.download = 'myPaint'
+    a.click()
+}
 
 pen.onclick = function() {
   eraserEnabled =false
@@ -42,6 +72,20 @@ function setCanvasSize() {
 
     canvas.width = pageWidth
     canvas.height = pageHeight
+}
+
+function clearCanvas() {
+    var pageWidth = document.documentElement.clientWidth
+    var pageHeight = document.documentElement.clientHeight
+    ctx.clearRect(0, 0, pageWidth, pageHeight)
+}
+
+function initCanvas() {
+    var pageWidth = document.documentElement.clientWidth
+    var pageHeight = document.documentElement.clientHeight
+    ctx.fillStyle = "white"
+    ctx.fillRect(0, 0, pageWidth, pageHeight)
+    console.log('init done')
 }
 
 
@@ -114,10 +158,6 @@ if(document.body.ontouchstart !== undefined){
         using = false
     }
 }
-
-
-
-
 
 
 var drawCircle = function (x, y, radius){

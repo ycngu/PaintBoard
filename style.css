@@ -9,6 +9,9 @@ ul, ol {
 
 #canvas {
     display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .actions{
@@ -86,4 +89,61 @@ ul, ol {
 .colors li.active{
     transform: scale(1.2);
     box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+}
+
+.penSizes{
+    position: fixed;
+    top: 45px;
+    right: 10px;
+}
+
+.penSizes li{
+    width: 26px;
+    height: 0px;
+    margin: 10px 0;
+    transition: all 0.3s;
+}
+
+.penSizes li.w3{
+    border-bottom: 3px solid black;
+}
+
+.penSizes li.w5{
+    border-bottom: 7px solid black;
+}
+
+.penSizes li.w8{
+    border-bottom: 10px solid black;
+}
+
+.penSizes li.active{
+    transform: scale(1.2);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 1);
+}
+
+.clear{
+    position: fixed;
+    top: 10px;
+    left: 94px;
+    width: 2em;
+    height: 2em;
+    transition: all 0.3s;
+}
+
+.clear:active {
+    transform: scale(1.2);
+    fill: red;
+}
+
+.save{
+    position: fixed;
+    top: 12px;
+    left: 135px;
+    width: 2em;
+    height: 2em;
+    transition: all 0.5s;
+}
+
+.save:active {
+    transform: scale(1.2);
 }
